@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Funerarias inscritas en Zaragoza</title>
+<meta name="description" content="Listado de las empresas funerarias inscritas en el Registro Municipal del Ayuntamiento de Zaragoza, por orden alfabético y con teléfonos de contacto.">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* Layout: single reading column; a stack of equal company cards, each led by its phone number. */
+*,*::before,*::after{box-sizing:border-box}
+
+:root{
+  color-scheme:light;
+  --bg:#f3f5f6;
+  --surface:#ffffff;
+  --fg:#1a1e22;
+  --muted:#5a656e;
+  --line:#dde2e6;
+  --accent:#2f5d62;
+  --display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#131619;
+    --surface:#1c2025;
+    --fg:#e7eaec;
+    --muted:#9aa4ad;
+    --line:#2b3137;
+    --accent:#82b6b3;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#131619;
+  --surface:#1c2025;
+  --fg:#e7eaec;
+  --muted:#9aa4ad;
+  --line:#2b3137;
+  --accent:#82b6b3;
+  color-scheme:dark;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.55;
+  -webkit-text-size-adjust:100%;
+}
+img{max-width:100%}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+a{color:var(--accent)}
+
+.wrap{
+  max-width:52rem;
+  margin:0 auto;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:2.25rem 3rem;
+}
+
+header.page{border-bottom:1px solid var(--line);padding-bottom:1.5rem;margin-bottom:1.5rem}
+h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:600;line-height:1.15;letter-spacing:-0.01em}
+.lede{color:var(--muted);margin:.7rem 0 0;max-width:38em}
+.stamp{
+  display:flex;flex-wrap:wrap;gap:.4rem 1rem;
+  margin-top:1rem;font-size:.82rem;color:var(--muted);
+}
+.stamp span{display:inline-flex;align-items:center;gap:.4rem}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none}
+
+.count{
+  font-size:.78rem;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--muted);font-weight:500;margin:1.5rem 0 .8rem;
+}
+
+ol.listado{list-style:none;margin:0;padding:0;display:grid;gap:.85rem}
+li.empresa{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:1.05rem 1.15rem;
+  display:grid;gap:.55rem;
+  min-width:0;
+}
+.nombre{font-family:var(--display);font-size:1.18rem;font-weight:600;line-height:1.25}
+.razon{font-size:.8rem;color:var(--muted);margin-top:.15rem}
+.dir{font-size:.92rem;color:var(--muted);margin:0}
+
+.tels{display:flex;flex-wrap:wrap;gap:.5rem}
+.tel{
+  display:inline-flex;align-items:center;gap:.5rem;
+  border:1px solid var(--line);border-radius:999px;
+  padding:.3rem .45rem .3rem .8rem;
+  background:var(--bg);
+}
+.tel a{
+  font-variant-numeric:tabular-nums;
+  font-weight:600;font-size:1rem;letter-spacing:.01em;
+  text-decoration:none;color:var(--accent);
+}
+.tel a:hover,.tel a:focus-visible{text-decoration:underline}
+.tel .etq{font-size:.74rem;color:var(--muted);font-weight:500;letter-spacing:.02em}
+button.copy{
+  border:0;background:transparent;cursor:pointer;
+  color:var(--muted);font-family:var(--body);font-size:.72rem;
+  padding:.25rem .45rem;border-radius:999px;line-height:1;
+}
+button.copy:hover{color:var(--fg);background:var(--line)}
+button.copy:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.web{font-size:.86rem;margin:0}
+.web a{word-break:break-word}
+.sin{font-size:.88rem;color:var(--muted);font-style:italic;margin:0}
+
+footer.page{
+  margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);
+  font-size:.86rem;color:var(--muted);display:grid;gap:.8rem;
+}
+footer.page p{margin:0}
+footer.page strong{color:var(--fg);font-weight:600}
+
+@media (min-width:46rem){
+  ol.listado{grid-template-columns:1fr 1fr}
+  li.empresa{align-content:start}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@media print{
+  :root{--bg:#fff;--surface:#fff;--fg:#000;--muted:#444;--line:#999;--accent:#000}
+  body{font-size:10pt}
+  .wrap{max-width:none;padding:0}
+  button.copy,.dot{display:none}
+  .tel{border:0;padding:0;background:none}
+  .tel a{text-decoration:none;color:#000}
+  ol.listado{grid-template-columns:1fr 1fr;gap:.4rem}
+  li.empresa{border:0;border-bottom:1px solid var(--line);border-radius:0;padding:.35rem 0;break-inside:avoid}
+  header.page{margin-bottom:.6rem;padding-bottom:.6rem}
+  a[href^="http"]::after{content:""}
+  footer.page{margin-top:1rem;padding-top:.6rem}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="page">
+    <h1>Funerarias inscritas en Zaragoza</h1>
+    <p class="lede">Las trece empresas funerarias que figuran en el Registro Municipal de Empresas Funerarias del Ayuntamiento de Zaragoza, por orden alfabético, con sus teléfonos de contacto.</p>
+    <div class="stamp">
+      <span><span class="dot"></span>Actualizado el 27 de octubre de 2026</span>
+      <span>Fuente: <a href="https://www.zaragoza.es/ciudad/cementerios/registro-funerarias.htm">Registro Municipal de Empresas Funerarias</a></span>
+    </div>
+  </header>
+
+  <p class="count">13 empresas inscritas</p>
+
+  <ol class="listado">
+
+    <li class="empresa">
+      <div>
+        <div class="nombre">Albia Zaragoza</div>
+        <div class="razon">Albia Gestión de Servicios, S.L.U.</div>
+      </div>
+      <p class="dir">Av. de Valencia 32 · 50005 Zaragoza</p>
+      <div class="tels">
+        <span class="tel"><a href="tel:+34976306766">976 306 766</a><button class="copy" data-tel="976306766">copiar</button></span>
+        <span class="tel"><span class="etq">24 h</span><a href="tel:+34900242420">900 242 420</a><button class="copy" data-tel="900242420">copiar</button></span>
+      </div>
+      <p class="web"><a href="https://www.albia.es">albia.es</a></p>
+    </li>
+
+    <li class="empresa">
+      <div>
+        <div class="nombre">Alkarama</div>
+        <div class="razon">Servicios y Gestión Funeraria Alkarama, S.L. · Servicios funerarios islámicos</div>
+      </div>
+      <p class="dir">C/ Emilio Alfaro Lapuerta 4, local 5 · 50017 Zaragoza</p>
+      <div class="tels">
+        <span class="tel"><a href="tel:+34608700883">608 700 883</a><button class="copy" data-tel="608700883">copiar</button></span>
+      </div>
+    </li>
+
+    <li class="empresa">
+      <div>
+        <div class="nombre">Funeraria Aragón</div>
+        <div class="razon">Pompas Fúnebres Aragón, S.L.</div>
+      </div>
+      <p class="dir">C/ Conde de Aranda 6 · 50003 Zaragoza</p>
+      <div class="tels">
+        <span class="tel"><span class="etq">24 h</span><a href="tel:+34976506040">976 50 60 40</a><button class="copy" data-tel="976506040">copiar</button></span>
+      </div>
+      <p class="web"><a href="https://www.funerariaaragon.com">funerariaaragon.com</a></p>
+    </li>
+
+    <li class="empresa">
+      <div>
+        <div class="nombre">Funeraria Cesaraugusta</div>
+        <div class="razon">Najucem, S.A.</div>
+      </div>
+      <p class="dir">C/ Manuel Lasala 36 · 50006 Zaragoza</p>
+      <div class="tels">
+        <span class="tel"><a href="tel:+34976400400">976 400 400</a><button class="copy" data-tel="976400400">copiar</button></span>
+      </div>
+    </li>
+
+    <li class="empresa">
+      <div>
+        <div class="nombre">Funeraria El Paraíso</div>
+        <div class="razon">Pompas Fúnebres El Paraíso, S.A.</div>
+      </div>
+      <p class="dir">Pº Fernando el Católico 65 · 50005 Zaragoza</p>
+      <div class="tels">
+        <span class="tel"><span class="etq">24 h</span><a href="tel:+34976555924">976 555 924</a><button class="copy" data-tel="976555924">copiar</button></span>
+      </div>
+      <p class="web"><a href="https://www.funerariaelparaiso.es">funerariaelparaiso.es</a></p>
+    </li>
+
+    <li class="empresa">
+      <div>
+        <div class="nombre">Funeraria La Milagrosa</div>
+        <div class="razon">Funeraria La Milagrosa, S.L.</div>
+      </div>
+      <p class="dir">Pº de Cuéllar 55 · 50007 Zaragoza</p>
+      <div class="tels">
+        <span class="tel"><span class="etq">24 h</span><a href="tel:+34976255500">976 255 500</a><button class="copy" data-tel="976255500">copiar</button></span>
+        <span class="tel"><a href="tel:+34675596975">675 596 975</a><button class="copy" data-tel="675596975">copiar</button></span>
+      </div>
+      <p class="web"><a href="https://funerarialamilagrosa.es">funerarialamilagrosa.es</a></p>
+    </li>
+
+    <li class="empresa">
+      <div>
+        <div class="nombre">Funeraria La Paz Zaragoza</div>
+        <div class="razon">Servicios Funerarios La Paz Zaragoza, S.L.</div>
+      </div>
+      <p class="dir">Pº Fernando el Católico 41 · 50006 Zaragoza</p>
+      <div class="tels">
+        <span class="tel"><span class="etq">24 h</span><a href="tel:+34976909070">976 90 90 70</a><button class="copy" data-tel="976909070">copiar</button></span>
+      </div>
+      <p class="web"><a href="https://funerarialapazzaragoza.es">funerarialapazzaragoza.es</a></p>
+    </li>
+
+    <li class="empresa">
+      <div>
+        <div class="nombre">Funeraria San Macario</div>
+        <div class="razon">Funeraria San Macario, S.L. · Sede en Teruel, presta servicio en Zaragoza</div>
+      </div>
+      <p class="dir">C/ La Unión 42 · 44500 Andorra (Teruel)</p>
+      <div class="tels">
+        <span class="tel"><span class="etq">24 h</span><a href="tel:+34978842481">978 842 481</a><button class="copy" data-tel="978842481">copiar</button></span>
+      </div>
+      <p class="web"><a href="https://funerariasanmacario.com">funerariasanmacario.com</a></p>
+    </li>
+
+    <li class="empresa">
+      <div>
+        <div class="nombre">Funeraria San Nicolás</div>
+        <div class="razon">Pompas Fúnebres San Nicolás, S.L.</div>
+      </div>
+      <p class="dir">Av. de Valencia 51-53 · 50005 Zaragoza</p>
+      <div class="tels">
+        <span class="tel"><span class="etq">24 h</span><a href="tel:+34976467171">976 467 171</a><button class="copy" data-tel="976467171">copiar</button></span>
+        <span class="tel"><a href="tel:+34976352100">976 352 100</a><button class="copy" data-tel="976352100">copiar</button></span>
+      </div>
+      <p class="web"><a href="https://pompasfunebressannicolas.com">pompasfunebressannicolas.com</a></p>
+    </li>
+
+    <li class="empresa">
+      <div>
+        <div class="nombre">Interfunerarias</div>
+        <div class="razon">Grupo Interfunerarias, S.L.U. · Red nacional, sin oficina en Zaragoza</div>
+      </div>
+      <div class="tels">
+        <span class="tel"><a href="tel:+34902162162">902 16 21 62</a><button class="copy" data-tel="902162162">copiar</button></span>
+      </div>
+      <p class="web"><a href="https://www.interfunerarias.es">interfunerarias.es</a></p>
+    </li>
+
+    <li class="empresa">
+      <div>
+        <div class="nombre">Mémora</div>
+        <div class="razon">Mémora Servicios Funerarios, S.L. · Gestiona el Complejo Funerario de Torrero</div>
+      </div>
+      <p class="dir">Oficina: C/ San Juan Bosco 58 · 50009 Zaragoza<br>Tanatorio: C/ Fray Julián Garcés s/n · 50007 Zaragoza</p>
+      <div class="tels">
+        <span class="tel"><span class="etq">24 h</span><a href="tel:+34900231132">900 231 132</a><button class="copy" data-tel="900231132">copiar</button></span>
+        <span class="tel"><span class="etq">Torrero</span><a href="tel:+34976388012">976 388 012</a><button class="copy" data-tel="976388012">copiar</button></span>
+      </div>
+      <p class="web"><a href="https://www.memora.es">memora.es</a></p>
+    </li>
+
+    <li class="empresa">
+      <div>
+        <div class="nombre">Servicios Funerarios de Zaragoza</div>
+        <div class="razon">Servicios Funerarios de Zaragoza, S.L. · Grupo Funespaña</div>
+      </div>
+      <p class="sin">Sociedad inscrita en el registro municipal sin oficina ni teléfono de atención propios. Opera a través de las marcas de su grupo.</p>
+    </li>
+
+    <li class="empresa">
+      <div>
+        <div class="nombre">Servisa</div>
+        <div class="razon">Servicios Especiales, S.A. · Tanatorio y crematorio propios</div>
+      </div>
+      <p class="dir">Camino de San Antonio 43 · 50013 Zaragoza</p>
+      <div class="tels">
+        <span class="tel"><a href="tel:+34976559100">976 559 100</a><button class="copy" data-tel="976559100">copiar</button></span>
+      </div>
+      <p class="web"><a href="https://www.servisa.es">servisa.es</a></p>
+    </li>
+
+  </ol>
+
+  <footer class="page">
+    <p><strong>El Complejo Funerario de Torrero</strong> (C/ Fray Julián Garcés s/n) es el tanatorio y crematorio al que trasladan la mayoría de estas funerarias, con independencia de cuál contrate la familia. Su teléfono directo es el 976 388 012.</p>
+    <p>Listado elaborado a partir del <a href="https://www.zaragoza.es/ciudad/cementerios/registro-funerarias.htm">Registro Municipal de Empresas Funerarias</a> del Ayuntamiento de Zaragoza, que acredita qué empresas están habilitadas para operar en el municipio pero no publica datos de contacto. Los teléfonos y direcciones proceden de las webs y canales de atención de cada empresa, verificados en octubre de 2026. Las empresas figuran por orden alfabético, sin recomendación ni preferencia.</p>
+  </footer>
+
+</div>
+
+<script>
+document.addEventListener("click", function(e){
+  var b = e.target.closest("button.copy");
+  if(!b) return;
+  var num = b.getAttribute("data-tel");
+  var done = function(){
+    var prev = b.textContent;
+    b.textContent = "copiado";
+    setTimeout(function(){ b.textContent = prev; }, 1600);
+  };
+  function select(btn){
+    var a = btn.parentNode.querySelector("a");
+    if(!a) return;
+    var r = document.createRange();
+    r.selectNodeContents(a);
+    var s = window.getSelection();
+    s.removeAllRanges();
+    s.addRange(r);
+  }
+  try{
+    navigator.clipboard.writeText(num).then(done, function(){ select(b); });
+  }catch(err){
+    select(b);
+  }
+});
+</script>
+
+</body>
+</html>
